@@ -116,9 +116,9 @@
                                             <nobr><button class="btn btn-sm btn-success" id="add"
                                                     style="float: right"><i class="fa fa-plus-circle"
                                                         aria-hidden="true"></i>&nbsp; Add</button>&nbsp;
-                                                <button class="btn btn-sm btn-success" id="get"
+                                                {{-- <button class="btn btn-sm btn-success" id="get"
                                                     style="float: right"><i class="fa fa-plus-circle"
-                                                        aria-hidden="true"></i>&nbsp; get</button></br></br>
+                                                        aria-hidden="true"></i>&nbsp; get</button></br></br> --}}
                                             </nobr>
                                         </td>
                                     </tr>
@@ -566,11 +566,22 @@
                         data: 'view',
                         name: 'view',
                         render: function(status, type, row, meta) {
-                            action = '<a data-id="' + row.id + '" onclick="viewInvoice(' + row.id +
-                                ')" class="btn btn-info viewBtn">Article &nbsp<i class="fa fa-eye" aria-hidden="true"></i></a>&nbsp<a data-id="' +
-                                row.id + '" onclick="billing(' + row.id +
-                                ')" class="btn btn-info viewBtn">Payment &nbsp<i class="fa fa-eye" aria-hidden="true"></i></a>'
-                            return action;
+                            // action = '<a data-id="' + row.id + '" onclick="viewInvoice(' + row.id +
+                            //     ')" class="btn btn-info viewBtn">Article &nbsp<i class="fa fa-eye" aria-hidden="true"></i></a>&nbsp<a data-id="' +
+                            //     row.id + '" onclick="billing(' + row.id +
+                            //     ')" class="btn btn-info viewBtn">Payment &nbsp<i class="fa fa-eye" aria-hidden="true"></i></a>'
+                            // return action;
+                            if(row.status == 'Released') {
+                                action = '<a data-id="' + row.id + '" onclick="viewInvoice(' + row.id +
+                                    ')" class="btn btn-info articleBtn">Article &nbsp<i class="fa fa-eye" aria-hidden="true"></i></a>';
+                            }else{
+                                action = '<a data-id="' + row.id + '" onclick="viewInvoice(' + row.id +
+                                    ')" class="btn btn-info articleBtn">Article &nbsp<i class="fa fa-eye" aria-hidden="true"></i></a>&nbsp<a data-id="' +
+                                    row.id + '" onclick="billing(' + row.id +
+                                    ')" class="btn btn-danger paymentBtn">Payment &nbsp<i class="fa fa-eye" aria-hidden="true"></i></a>';
+                            }
+                             return action;
+
                         }
                     },
                 ],
