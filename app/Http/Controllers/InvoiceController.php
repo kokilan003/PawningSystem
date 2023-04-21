@@ -10,7 +10,6 @@ use App\Models\Interest;
 use App\Models\Invoice;
 use App\Models\IssuingAmount;
 use App\Models\Payment;
-use App\Models\Report;
 use DateTime;
 use Illuminate\Http\Request;
 // reference the Dompdf namespace
@@ -82,18 +81,6 @@ class InvoiceController extends Controller
         $payment->payable_interest = (($request->data["issuable"]) * ($interest->current_interest_rate) / 100);
         $payment->total_payable = (($request->data["issuable"]) + (($request->data["issuable"]) * ($interest->current_interest_rate) / 100));
         $payment->save();
-
-        $report = new Report();
-        $report -> invoice_no = $invoice->id;
-        $report -> name = $request->data["customer"];
-        $report -> status = "Active";
-        $report -> first_reminder = $invoice->created_at->addYear()->subDays(30);
-        $report -> second_reminder = $invoice->created_at->addYear()->subDays(15);
-        $report -> third_reminder = $invoice->created_at->addYear()->subDays(5);
-        $report -> first_reminder_desc = null;
-        $report -> second_reminder_desc = null;
-        $report -> third_reminder_desc = null;
-        $report->save();
 
         // $customer = $old;
         // $email = $customer->email;
@@ -190,10 +177,6 @@ class InvoiceController extends Controller
             $invoice = Invoice::find($request->data["bill_no"]);
             $invoice->status = "Released";
             $invoice->update();
-
-            $report = Report::find($request->data["bill_no"]);
-            $report->status = "Closed";
-            $report->update();
         }
 
         return response()->json(
