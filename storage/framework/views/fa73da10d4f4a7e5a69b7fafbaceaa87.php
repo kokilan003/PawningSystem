@@ -306,7 +306,8 @@
                     closeOnConfirm: true
                 }).then((result) => {
                     /* Read more about isConfirmed, isDenied below */
-                    if (result) {
+                    if (result.isDenied) {
+                        console.log("dismissed");
 
                         $.ajax({
                             type: 'DELETE',
